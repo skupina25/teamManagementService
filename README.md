@@ -1,2 +1,2 @@
 # teamManagementService
-A microservice for managing teams of users.
+Avtorja: Žan Pečovnik in Žiga Kleine
