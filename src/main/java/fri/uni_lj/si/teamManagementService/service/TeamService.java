@@ -47,6 +47,11 @@ public class TeamService {
                 currentTeam.setTeamName(newTeam.getTeamName());
             }
 
+            if(newTeam.getBoards() != null) {
+                currentTeam.setBoards(newTeam.getBoards());
+            }
+
+
             return teamRepository.save(currentTeam);
         }
 
@@ -64,5 +69,7 @@ public class TeamService {
             return "Team " + id + " not found";
         }
     }
+
+
 
 }

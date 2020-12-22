@@ -8,13 +8,16 @@ import java.util.List;
 public class Team {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column
     private String teamName;
 
     @OneToMany(mappedBy = "team", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<User> users;
+
+    @ElementCollection
+    private List<Long> boards;
 
     public Team() {
     }
@@ -41,5 +44,13 @@ public class Team {
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    public List<Long> getBoards() {
+        return boards;
+    }
+
+    public void setBoards(List<Long> boards) {
+        this.boards = boards;
     }
 }
