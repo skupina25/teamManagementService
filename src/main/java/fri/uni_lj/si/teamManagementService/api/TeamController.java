@@ -66,9 +66,20 @@ public class TeamController {
         return t;
     }
 
+    @PostMapping("/team/{teamId}/boards/{boardId}")
+    private Team editBoardId(@PathVariable Long teamId, @PathVariable Long boardId, @RequestBody Long newBoardId) {
+
+        Team t = teamService.getTeamById(teamId);
+        List<Long> teamBoards = t.getBoards();
+        teamBoards.remove(boardId);
+        teamBoards.add(newBoardId);
+        t = teamService.editTeam(t, teamId);
+        return t;
+    }
+
     // delete boards from team
     @DeleteMapping("/team/{teamId}/boards/{boardId}")
-    private Team deleteBoard(@PathVariable Long teamId, @PathVariable Long boardId) {
+    private Team deleteBoardId(@PathVariable Long teamId, @PathVariable Long boardId) {
 
         Team t = teamService.getTeamById(teamId);
         List<Long> teamBoards = t.getBoards();
