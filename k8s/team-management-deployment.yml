@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: team-management-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: team-management-service
+  template:
+    metadata:
+      labels:
+        app: team-management-service
+    spec:
+      containers:
+        - image: zigakleine/team-management-service:1.0.0-SNAPSHOT-6.1
+          resources:
+            requests:
+              cpu: "30m"
+            limits:
+              cpu: "40m"
+          name: team-management-service
+          env:
+            - name: DBURL
+              value: jdbc:postgresql://dumbo.db.elephantsql.com:5432/mcvjtidy
+            - name: DBUSERNAME
+              value: mcvjtidy
+            - name: DBPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-pass-team-management
+                  key: DBPASSWORD
+          ports:
+            - containerPort: 8082
+              name: server
+              protocol: TCP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: team-management-service
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8082
+      protocol: TCP
+      targetPort: server
+  selector:
+    app: team-management-service
